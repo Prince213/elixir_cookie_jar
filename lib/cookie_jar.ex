@@ -6,6 +6,7 @@ defmodule CookieJar do
 
     * [RFC 6265](https://datatracker.ietf.org/doc/html/rfc6265)
   """
+  use GenServer
 
   @doc """
   Hello world.
