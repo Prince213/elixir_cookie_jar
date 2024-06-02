@@ -18,6 +18,7 @@ defmodule CookieJar do
           }
         }
 
+  @spec start_link(cookies()) :: GenServer.on_start()
   def start_link(cookies \\ %{}) do
     GenServer.start_link(__MODULE__, cookies)
   end
