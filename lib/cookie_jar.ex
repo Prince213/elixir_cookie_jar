@@ -8,6 +8,8 @@ defmodule CookieJar do
   """
   use GenServer
 
+  @type t() :: pid()
+
   @doc """
   Hello world.
 
