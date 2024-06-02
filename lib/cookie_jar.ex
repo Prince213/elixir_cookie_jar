@@ -19,6 +19,7 @@ defmodule CookieJar do
         }
 
   @impl true
+  @spec init(cookies()) :: {:ok, cookies()}
   def init(cookies) do
     {:ok, cookies}
   end
