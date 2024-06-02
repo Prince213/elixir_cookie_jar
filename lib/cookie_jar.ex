@@ -18,6 +18,11 @@ defmodule CookieJar do
           }
         }
 
+  @impl true
+  def init(cookies) do
+    {:ok, cookies}
+  end
+
   @doc """
   Hello world.
 
