@@ -10,6 +10,14 @@ defmodule CookieJar do
 
   @type t() :: pid()
 
+  @type cookies() :: %{
+          %{
+            name: String.t()
+          } => %{
+            value: String.t()
+          }
+        }
+
   @doc """
   Hello world.
 
