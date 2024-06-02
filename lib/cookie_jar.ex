@@ -1,6 +1,6 @@
 defmodule CookieJar do
   @moduledoc """
-  An cookie jar.
+  A cookie jar.
 
   ## References
 
