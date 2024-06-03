@@ -1,6 +1,6 @@
 # CookieJar
 
-**TODO: Add description**
+A RFC 6265 cookie jar.
 
 ## Installation
 
