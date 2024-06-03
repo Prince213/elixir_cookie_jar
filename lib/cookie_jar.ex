@@ -152,6 +152,10 @@ defmodule CookieJar do
                name <- name |> trim_wsp() |> String.downcase(),
                value <- List.first(value, "") |> trim_wsp() do
             case name do
+              "expires" ->
+                time = parse_expires(value)
+                if time, do: {:expires, time}
+
               "max-age" ->
                 with true <- value =~ ~r/^[\-\d]\d*$/,
                      delta <- String.to_integer(value) do
@@ -270,6 +274,10 @@ defmodule CookieJar do
     else
       _ -> cookies
     end
+  end
+
+  defp parse_expires(_value) do
+    nil
   end
 
   # https://datatracker.ietf.org/doc/html/rfc6265#section-5.1.4
