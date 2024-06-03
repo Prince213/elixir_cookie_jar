@@ -26,6 +26,7 @@ defmodule CookieJar do
         }
 
   @type cookie() :: %{
+          uri: URI.t(),
           name: String.t(),
           value: String.t(),
           attrs: [
@@ -171,6 +172,7 @@ defmodule CookieJar do
         |> Enum.filter(&(not is_nil(&1)))
 
       %{
+        uri: request_uri,
         name: name,
         value: value,
         attrs: attrs
@@ -187,6 +189,7 @@ defmodule CookieJar do
         Enum.reduce(
           cookie.attrs,
           %{
+            uri: cookie.uri,
             name: cookie.name,
             value: cookie.value,
             path: default_path(cookie.uri),
