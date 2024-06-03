@@ -115,7 +115,15 @@ defmodule CookieJar do
   @spec store_cookie(cookies(), cookie() | nil) :: cookies()
   defp store_cookie(cookies, cookie) do
     with false <- is_nil(cookie) do
-      cookies
+      cookie = {%{name: cookie.name}, %{value: cookie.value}}
+
+      if cookie do
+        cookies
+        |> Map.delete(elem(cookie, 0))
+        |> Map.put(elem(cookie, 0), elem(cookie, 1))
+      else
+        cookies
+      end
     else
       _ -> cookies
     end
