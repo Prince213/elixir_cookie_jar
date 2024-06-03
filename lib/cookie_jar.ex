@@ -180,6 +180,18 @@ defmodule CookieJar do
              http_only: cookie.http_only
            }}
 
+        old = Map.get(cookies, elem(cookie, 0))
+
+        cookie =
+          if old do
+            {
+              elem(cookie, 0),
+              elem(cookie, 1) |> Map.put(:creation_time, old.creation_time)
+            }
+          else
+            cookie
+          end
+
         cookies
         |> Map.put(elem(cookie, 0), elem(cookie, 1))
       else
