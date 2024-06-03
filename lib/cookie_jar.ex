@@ -179,13 +179,18 @@ defmodule CookieJar do
           },
           fn {k, v}, acc -> Map.put(acc, k, v) end
         )
-        |> (fn c -> c |> Map.put(:persistent, false) end).()
+        |> (fn c ->
+              c
+              |> Map.put(:persistent, false)
+              |> Map.put(:expiry_time, ~U[2099-12-31 23:59:59Z])
+            end).()
 
       if cookie do
         cookie =
           {%{name: cookie.name},
            %{
              value: cookie.value,
+             expiry_time: cookie.expiry_time,
              creation_time: DateTime.utc_now(),
              last_access_time: DateTime.utc_now(),
              persistent: cookie.persistent,
