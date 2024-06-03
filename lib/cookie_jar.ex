@@ -93,6 +93,7 @@ defmodule CookieJar do
     {:noreply, cookies}
   end
 
+  @spec parse_header(URI.t(), String.t()) :: cookie() | nil
   defp parse_header(_request_uri, _header) do
     nil
   end
