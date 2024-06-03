@@ -88,7 +88,14 @@ defmodule CookieJar do
   @spec handle_cast({:process_header, URI.t(), String.t()}, cookies()) ::
           {:noreply, cookies()}
   def handle_cast({:process_header, request_uri, header}, cookies) do
-    _cookie = parse_header(request_uri, header)
+    cookie = parse_header(request_uri, header)
+
+    cookies =
+      unless is_nil(cookie) do
+        store_cookie(cookies, cookie)
+      else
+        cookies
+      end
 
     {:noreply, cookies}
   end
@@ -108,6 +115,10 @@ defmodule CookieJar do
     else
       _ -> nil
     end
+  end
+
+  defp store_cookie(cookies, _cookie) do
+    cookies
   end
 
   @spec trim_wsp(String.t()) :: String.t()
