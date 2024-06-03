@@ -227,6 +227,7 @@ defmodule CookieJar do
     end
   end
 
+  @spec default_path(URI.t()) :: binary()
   defp default_path(uri) do
     with path <- uri.path || "",
          false <- path == "" or :binary.first(path) != ?/,
