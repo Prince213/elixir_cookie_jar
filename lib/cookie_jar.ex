@@ -375,6 +375,7 @@ defmodule CookieJar do
     end
   end
 
+  # https://datatracker.ietf.org/doc/html/rfc6265#section-5.1.3
   # TODO: check if string is an IP address
   @spec domain_matches?(String.t(), String.t()) :: boolean()
   defp domain_matches?(string, domain) do
