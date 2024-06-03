@@ -94,8 +94,20 @@ defmodule CookieJar do
   end
 
   @spec parse_header(URI.t(), String.t()) :: cookie() | nil
-  defp parse_header(_request_uri, _header) do
-    nil
+  defp parse_header(_request_uri, header) do
+    with [pair | _attrs] <- String.split(header, ";"),
+         [name | value] <- String.split(pair, "=", parts: 2),
+         true <- value != [],
+         value <- List.first(value) |> trim_wsp(),
+         name <- trim_wsp(name),
+         true <- name != "" do
+      %{
+        name: name,
+        value: value
+      }
+    else
+      _ -> nil
+    end
   end
 
   @spec trim_wsp(String.t()) :: String.t()
