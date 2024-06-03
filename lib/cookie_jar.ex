@@ -375,6 +375,7 @@ defmodule CookieJar do
     end
   end
 
+  # https://datatracker.ietf.org/doc/html/rfc6265#section-5.1.2
   # TODO
   @spec canonicalize(String.t()) :: String.t()
   defp canonicalize(host) do
