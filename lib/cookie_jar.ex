@@ -151,6 +151,19 @@ defmodule CookieJar do
                name <- name |> trim_wsp() |> String.downcase(),
                value <- List.first(value, "") |> trim_wsp() do
             case name do
+              "max-age" ->
+                with true <- value =~ ~r/^[\-\d]\d*$/,
+                     delta <- String.to_integer(value) do
+                  {:max_age,
+                   if delta <= 0 do
+                     DateTime.from_unix!(0)
+                   else
+                     DateTime.utc_now() |> DateTime.add(delta)
+                   end}
+                else
+                  _ -> nil
+                end
+
               "path" ->
                 {:path,
                  if value == "" or :binary.first(value) != ?/ do
