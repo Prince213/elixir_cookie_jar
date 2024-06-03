@@ -26,6 +26,9 @@ defmodule CookieJar do
     GenServer.start_link(__MODULE__, cookies)
   end
 
+  @doc """
+  Get all cookies from a cookie jar.
+  """
   def get_cookies(cookie_jar) do
     GenServer.call(cookie_jar, :get_cookies)
   end
