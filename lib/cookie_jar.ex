@@ -18,6 +18,11 @@ defmodule CookieJar do
           }
         }
 
+  @type cookie() :: %{
+          name: String.t(),
+          value: String.t()
+        }
+
   @doc """
   Creates a cookie jar linked to the current process.
   """
