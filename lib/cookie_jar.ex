@@ -83,7 +83,10 @@ defmodule CookieJar do
       cookies
       |> Map.to_list()
       |> Enum.map_reduce([], fn {k, v}, acc ->
-        with true <- not v.secure_only or request_uri.scheme == "https" do
+        with true <- not v.secure_only or request_uri.scheme == "https",
+             true <-
+               not v.http_only or
+                 Enum.member?(~w(http https), request_uri.scheme) do
           {{k, v}, [{k, v}] ++ acc}
         else
           _ -> {{k, v}, acc}
