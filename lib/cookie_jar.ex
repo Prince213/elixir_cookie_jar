@@ -166,7 +166,6 @@ defmodule CookieJar do
            }}
 
         cookies
-        |> Map.delete(elem(cookie, 0))
         |> Map.put(elem(cookie, 0), elem(cookie, 1))
       else
         cookies
