@@ -18,6 +18,9 @@ defmodule CookieJar do
           }
         }
 
+  @doc """
+  Creates a cookie jar linked to the current process.
+  """
   @spec start_link(cookies()) :: GenServer.on_start()
   def start_link(cookies \\ %{}) do
     GenServer.start_link(__MODULE__, cookies)
