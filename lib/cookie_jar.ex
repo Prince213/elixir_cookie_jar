@@ -14,7 +14,8 @@ defmodule CookieJar do
           %{
             name: String.t()
           } => %{
-            value: String.t()
+            value: String.t(),
+            secure_only: boolean()
           }
         }
 
