@@ -135,17 +135,4 @@ defmodule CookieJar do
     |> (&Regex.replace(~r/^[ \t]*/, &1, "")).()
     |> (&Regex.replace(~r/[ \t]*$/, &1, "")).()
   end
-
-  @doc """
-  Hello world.
-
-  ## Examples
-
-      iex> CookieJar.hello()
-      :world
-
-  """
-  def hello do
-    :world
-  end
 end
