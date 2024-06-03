@@ -12,7 +12,8 @@ defmodule CookieJar do
 
   @type cookies() :: %{
           %{
-            name: String.t()
+            name: String.t(),
+            path: String.t()
           } => %{
             value: String.t(),
             expiry_time: DateTime.t(),
