@@ -223,6 +223,7 @@ defmodule CookieJar do
     end
   end
 
+  @spec path_matches?(String.t(), String.t()) :: boolean()
   defp path_matches?(request_path, cookie_path) do
     cond do
       cookie_path == request_path ->
