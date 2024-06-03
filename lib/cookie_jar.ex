@@ -21,6 +21,7 @@ defmodule CookieJar do
             creation_time: DateTime.t(),
             last_access_time: DateTime.t(),
             persistent: boolean(),
+            host_only: boolean(),
             secure_only: boolean(),
             http_only: boolean()
           }
