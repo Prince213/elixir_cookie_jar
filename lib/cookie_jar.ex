@@ -15,6 +15,7 @@ defmodule CookieJar do
             name: String.t()
           } => %{
             value: String.t(),
+            expiry_time: DateTime.t(),
             creation_time: DateTime.t(),
             last_access_time: DateTime.t(),
             persistent: boolean(),
