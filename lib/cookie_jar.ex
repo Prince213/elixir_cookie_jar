@@ -17,6 +17,7 @@ defmodule CookieJar do
             value: String.t(),
             creation_time: DateTime.t(),
             last_access_time: DateTime.t(),
+            persistent: boolean(),
             secure_only: boolean(),
             http_only: boolean()
           }
@@ -180,6 +181,7 @@ defmodule CookieJar do
              value: cookie.value,
              creation_time: DateTime.utc_now(),
              last_access_time: DateTime.utc_now(),
+             persistent: false,
              secure_only: cookie.secure,
              http_only: cookie.http_only
            }}
