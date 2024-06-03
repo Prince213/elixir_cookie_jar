@@ -98,6 +98,13 @@ defmodule CookieJar do
     nil
   end
 
+  @spec trim_wsp(String.t()) :: String.t()
+  defp trim_wsp(string) do
+    string
+    |> (&Regex.replace(~r/^[ \t]*/, &1, "")).()
+    |> (&Regex.replace(~r/[ \t]*$/, &1, "")).()
+  end
+
   @doc """
   Hello world.
 
