@@ -224,6 +224,7 @@ defmodule CookieJar do
             value: cookie.value,
             expires: nil,
             max_age: nil,
+            domain: "",
             path: default_path(cookie.uri),
             secure: false,
             http_only: false
@@ -248,11 +249,30 @@ defmodule CookieJar do
                   |> Map.put(:expiry_time, ~U[2099-12-31 23:59:59Z])
               end
             end).()
+        |> (fn c ->
+              host = canonicalize(c.uri.host)
+
+              cond do
+                c.domain == "" ->
+                  c
+                  |> Map.put(:host_only, true)
+                  |> Map.put(:domain, host)
+
+                domain_matches?(host, c.domain) ->
+                  c
+                  |> Map.put(:host_only, false)
+                  |> Map.put(:domain, c.domain)
+
+                true ->
+                  nil
+              end
+            end).()
 
       if cookie do
         cookie =
           {%{
              name: cookie.name,
+             domain: cookie.domain,
              path: cookie.path
            },
            %{
