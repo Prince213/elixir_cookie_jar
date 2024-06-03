@@ -276,6 +276,7 @@ defmodule CookieJar do
     end
   end
 
+  @spec parse_expires(String.t()) :: DateTime.t() | nil
   defp parse_expires(_value) do
     nil
   end
