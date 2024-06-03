@@ -1,3 +1,4 @@
+# TODO: remove UTF-8 requirements.
 defmodule CookieJar do
   @moduledoc """
   A cookie jar.
