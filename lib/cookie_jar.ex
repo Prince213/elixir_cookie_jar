@@ -76,10 +76,19 @@ defmodule CookieJar do
   @impl true
   @spec handle_call({:create_header, URI.t()}, GenServer.from(), cookies()) ::
           {:reply, binary(), cookies()}
-  def handle_call({:create_header, _request_uri}, _from, cookies) do
-    list =
+  def handle_call({:create_header, request_uri}, _from, cookies) do
+    {cookies, list} =
       cookies
       |> Map.to_list()
+      |> Enum.map_reduce([], fn {k, v}, acc ->
+        with true <- not v.secure_only or request_uri.scheme == "https" do
+          {{k, v}, [{k, v}] ++ acc}
+        else
+          _ -> {{k, v}, acc}
+        end
+      end)
+
+    cookies = Map.new(cookies)
 
     header =
       list
