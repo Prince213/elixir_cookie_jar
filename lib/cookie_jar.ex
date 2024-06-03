@@ -100,7 +100,11 @@ defmodule CookieJar do
         DateTime.compare(now, x.expiry_time) == :lt
       end)
       |> Enum.map_reduce([], fn {k, v}, acc ->
-        with true <- path_matches?(request_uri.path, k.path),
+        with host <- canonicalize(request_uri.host),
+             true <-
+               (v.host_only and host == k.domain) or
+                 (not v.host_only and domain_matches?(host, k.domain)),
+             true <- path_matches?(request_uri.path, k.path),
              true <- not v.secure_only or request_uri.scheme == "https",
              true <-
                not v.http_only or
