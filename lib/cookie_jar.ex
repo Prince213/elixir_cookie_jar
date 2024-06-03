@@ -29,7 +29,8 @@ defmodule CookieJar do
           name: String.t(),
           value: String.t(),
           attrs: [
-            {:secure, true}
+            {:path, String.t()}
+            | {:secure, true}
             | {:http_only, true}
           ]
         }
