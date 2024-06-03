@@ -25,6 +25,7 @@ defmodule CookieJar do
           value: String.t(),
           attrs: [
             {:secure, true}
+            | {:http_only, true}
           ]
         }
 
@@ -153,7 +154,8 @@ defmodule CookieJar do
           %{
             name: cookie.name,
             value: cookie.value,
-            secure: false
+            secure: false,
+            http_only: false
           },
           fn {k, v}, acc -> Map.put(acc, k, v) end
         )
