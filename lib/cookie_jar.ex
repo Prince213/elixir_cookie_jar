@@ -15,6 +15,7 @@ defmodule CookieJar do
             name: String.t()
           } => %{
             value: String.t(),
+            creation_time: DateTime.t(),
             secure_only: boolean(),
             http_only: boolean()
           }
@@ -171,6 +172,7 @@ defmodule CookieJar do
           {%{name: cookie.name},
            %{
              value: cookie.value,
+             creation_time: DateTime.utc_now(),
              secure_only: cookie.secure,
              http_only: cookie.http_only
            }}
