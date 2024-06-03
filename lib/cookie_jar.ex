@@ -131,6 +131,9 @@ defmodule CookieJar do
               "secure" ->
                 {:secure, true}
 
+              "httponly" ->
+                {:http_only, true}
+
               _ ->
                 nil
             end
