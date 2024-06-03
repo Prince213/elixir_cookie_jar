@@ -220,6 +220,7 @@ defmodule CookieJar do
   # https://datatracker.ietf.org/doc/html/rfc6265#section-5.3
   @spec store_cookie(cookies(), cookie() | nil) :: cookies()
   defp store_cookie(cookies, cookie) do
+    # TODO: public suffixes
     with false <- is_nil(cookie) do
       cookie =
         Enum.reduce(
