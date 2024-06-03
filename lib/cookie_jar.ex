@@ -13,6 +13,7 @@ defmodule CookieJar do
   @type cookies() :: %{
           %{
             name: String.t(),
+            domain: String.t(),
             path: String.t()
           } => %{
             value: String.t(),
