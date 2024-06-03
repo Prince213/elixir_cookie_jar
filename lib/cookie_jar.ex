@@ -173,6 +173,7 @@ defmodule CookieJar do
           },
           fn {k, v}, acc -> Map.put(acc, k, v) end
         )
+        |> (fn c -> c |> Map.put(:persistent, false) end).()
 
       if cookie do
         cookie =
@@ -181,7 +182,7 @@ defmodule CookieJar do
              value: cookie.value,
              creation_time: DateTime.utc_now(),
              last_access_time: DateTime.utc_now(),
-             persistent: false,
+             persistent: cookie.persistent,
              secure_only: cookie.secure,
              http_only: cookie.http_only
            }}
