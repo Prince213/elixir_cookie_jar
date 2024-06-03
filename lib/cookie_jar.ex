@@ -34,6 +34,9 @@ defmodule CookieJar do
     GenServer.call(cookie_jar, :get_cookies)
   end
 
+  @doc """
+  Creates a Cookie header field.
+  """
   @spec create_header(t(), URI.t()) :: binary()
   def create_header(cookie_jar, request_uri) do
     GenServer.call(cookie_jar, {:create_header, request_uri})
