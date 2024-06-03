@@ -376,6 +376,7 @@ defmodule CookieJar do
   end
 
   # TODO
+  @spec canonicalize(String.t()) :: String.t()
   defp canonicalize(host) do
     host
   end
