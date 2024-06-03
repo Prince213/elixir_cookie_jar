@@ -30,7 +30,8 @@ defmodule CookieJar do
           name: String.t(),
           value: String.t(),
           attrs: [
-            {:max_age, DateTime.t()}
+            {:expires, DateTime.t()}
+            | {:max_age, DateTime.t()}
             | {:path, String.t()}
             | {:secure, true}
             | {:http_only, true}
@@ -206,6 +207,7 @@ defmodule CookieJar do
             uri: cookie.uri,
             name: cookie.name,
             value: cookie.value,
+            expires: nil,
             max_age: nil,
             path: default_path(cookie.uri),
             secure: false,
