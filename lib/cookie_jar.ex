@@ -34,6 +34,10 @@ defmodule CookieJar do
     GenServer.call(cookie_jar, :get_cookies)
   end
 
+  def create_header(cookie_jar, uri) do
+    GenServer.call(cookie_jar, {:create_header, uri})
+  end
+
   @impl true
   @spec init(cookies()) :: {:ok, cookies()}
   def init(cookies) do
