@@ -206,6 +206,7 @@ defmodule CookieJar do
             uri: cookie.uri,
             name: cookie.name,
             value: cookie.value,
+            max_age: nil,
             path: default_path(cookie.uri),
             secure: false,
             http_only: false
@@ -213,9 +214,17 @@ defmodule CookieJar do
           fn {k, v}, acc -> Map.put(acc, k, v) end
         )
         |> (fn c ->
-              c
-              |> Map.put(:persistent, false)
-              |> Map.put(:expiry_time, ~U[2099-12-31 23:59:59Z])
+              cond do
+                not is_nil(c.max_age) ->
+                  c
+                  |> Map.put(:persistent, true)
+                  |> Map.put(:expiry_time, c.max_age)
+
+                true ->
+                  c
+                  |> Map.put(:persistent, false)
+                  |> Map.put(:expiry_time, ~U[2099-12-31 23:59:59Z])
+              end
             end).()
 
       if cookie do
