@@ -172,6 +172,14 @@ defmodule CookieJar do
                   _ -> nil
                 end
 
+              "domain" ->
+                if value != "" do
+                  {:domain,
+                   value
+                   |> String.replace_prefix(".", "")
+                   |> String.downcase()}
+                end
+
               "path" ->
                 {:path,
                  if value == "" or :binary.first(value) != ?/ do
