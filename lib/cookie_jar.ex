@@ -227,6 +227,24 @@ defmodule CookieJar do
     end
   end
 
+  defp default_path(uri) do
+    with path <- uri.path || "",
+         false <- path == "" or :binary.first(path) != ?/,
+         bytes <- :binary.bin_to_list(path),
+         false <- Enum.count(bytes, &(&1 == ?/)) <= 1 do
+      length =
+        bytes
+        |> Enum.reverse()
+        |> Enum.find_index(&(&1 == ?/))
+
+      length = byte_size(path) - (1 + length)
+
+      binary_slice(path, 0, length)
+    else
+      _ -> "/"
+    end
+  end
+
   # https://datatracker.ietf.org/doc/html/rfc6265#section-5.1.4
   @spec path_matches?(String.t(), String.t()) :: boolean()
   defp path_matches?(request_path, cookie_path) do
