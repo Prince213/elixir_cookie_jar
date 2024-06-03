@@ -23,6 +23,10 @@ defmodule CookieJar do
     GenServer.start_link(__MODULE__, cookies)
   end
 
+  def get_cookies(cookie_jar) do
+    GenServer.call(cookie_jar, :get_cookies)
+  end
+
   @impl true
   @spec init(cookies()) :: {:ok, cookies()}
   def init(cookies) do
