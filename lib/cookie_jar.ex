@@ -30,7 +30,8 @@ defmodule CookieJar do
           name: String.t(),
           value: String.t(),
           attrs: [
-            {:path, String.t()}
+            {:max_age, DateTime.t()}
+            | {:path, String.t()}
             | {:secure, true}
             | {:http_only, true}
           ]
