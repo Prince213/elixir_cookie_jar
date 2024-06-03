@@ -111,8 +111,12 @@ defmodule CookieJar do
 
     header =
       list
-      |> Enum.sort(fn {_k1, v1}, {_k2, v2} ->
-        DateTime.compare(v1.creation_time, v2.creation_time) == :lt
+      |> Enum.sort(fn {k1, v1}, {k2, v2} ->
+        if byte_size(k1.path) != byte_size(k2.path) do
+          byte_size(k1.path) < byte_size(k2.path)
+        else
+          DateTime.compare(v1.creation_time, v2.creation_time) == :lt
+        end
       end)
       |> Enum.map_join("; ", fn {k, v} -> k.name <> "=" <> v.value end)
 
