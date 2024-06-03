@@ -189,6 +189,7 @@ defmodule CookieJar do
           %{
             name: cookie.name,
             value: cookie.value,
+            path: default_path(cookie.uri),
             secure: false,
             http_only: false
           },
@@ -202,7 +203,10 @@ defmodule CookieJar do
 
       if cookie do
         cookie =
-          {%{name: cookie.name},
+          {%{
+             name: cookie.name,
+             path: cookie.path
+           },
            %{
              value: cookie.value,
              expiry_time: cookie.expiry_time,
