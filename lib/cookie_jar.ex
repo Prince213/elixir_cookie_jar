@@ -268,8 +268,19 @@ defmodule CookieJar do
                   nil
               end
             end).()
+        |> (fn c ->
+              if not is_nil(c) and
+                   c.host_only and
+                   not Enum.member?(~w(http https), c.uri.scheme) do
+                nil
+              else
+                c
+              end
+            end).()
 
       if cookie do
+        uri = cookie.uri
+
         cookie =
           {%{
              name: cookie.name,
@@ -282,6 +293,7 @@ defmodule CookieJar do
              creation_time: DateTime.utc_now(),
              last_access_time: DateTime.utc_now(),
              persistent: cookie.persistent,
+             host_only: cookie.host_only,
              secure_only: cookie.secure,
              http_only: cookie.http_only
            }}
@@ -290,16 +302,24 @@ defmodule CookieJar do
 
         cookie =
           if old do
-            {
-              elem(cookie, 0),
-              elem(cookie, 1) |> Map.put(:creation_time, old.creation_time)
-            }
+            if old.host_only and not Enum.member?(~w(http https), uri.scheme) do
+              nil
+            else
+              {
+                elem(cookie, 0),
+                elem(cookie, 1) |> Map.put(:creation_time, old.creation_time)
+              }
+            end
           else
             cookie
           end
 
-        cookies
-        |> Map.put(elem(cookie, 0), elem(cookie, 1))
+        if cookie do
+          cookies
+          |> Map.put(elem(cookie, 0), elem(cookie, 1))
+        else
+          cookies
+        end
       else
         cookies
       end
