@@ -375,6 +375,23 @@ defmodule CookieJar do
     end
   end
 
+  # TODO: check if string is an IP address
+  defp domain_matches?(string, domain) do
+    cond do
+      string == domain ->
+        true
+
+      not String.ends_with?(string, domain) ->
+        false
+
+      :binary.at(string, byte_size(string) - 1 - byte_size(domain)) != ?. ->
+        false
+
+      true ->
+        true
+    end
+  end
+
   # https://datatracker.ietf.org/doc/html/rfc6265#section-5.1.4
   @spec default_path(URI.t()) :: binary()
   defp default_path(uri) do
