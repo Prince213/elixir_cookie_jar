@@ -172,7 +172,7 @@ defmodule CookieJar do
            %{
              value: cookie.value,
              secure_only: cookie.secure,
-             http_only: false
+             http_only: cookie.http_only
            }}
 
         cookies
