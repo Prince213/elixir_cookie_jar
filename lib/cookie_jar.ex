@@ -36,6 +36,7 @@ defmodule CookieJar do
 
   @doc """
   Creates a Cookie header field.
+  If there's nothing to send, returns an empty string.
   """
   @spec create_header(t(), URI.t()) :: binary()
   def create_header(cookie_jar, request_uri) do
