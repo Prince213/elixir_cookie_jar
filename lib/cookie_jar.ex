@@ -80,6 +80,8 @@ defmodule CookieJar do
   end
 
   @impl true
+  @spec handle_cast({:process_header, URI.t(), String.t()}, cookies()) ::
+          {:noreply, cookies()}
   def handle_cast({:process_header, _request_uri, _header}, cookies) do
     {:noreply, cookies}
   end
