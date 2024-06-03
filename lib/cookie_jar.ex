@@ -227,6 +227,7 @@ defmodule CookieJar do
     end
   end
 
+  # https://datatracker.ietf.org/doc/html/rfc6265#section-5.1.4
   @spec default_path(URI.t()) :: binary()
   defp default_path(uri) do
     with path <- uri.path || "",
