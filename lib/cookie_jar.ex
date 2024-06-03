@@ -277,8 +277,91 @@ defmodule CookieJar do
   end
 
   @spec parse_expires(String.t()) :: DateTime.t() | nil
-  defp parse_expires(_value) do
-    nil
+  defp parse_expires(value) do
+    value =
+      value
+      |> (&Regex.scan(
+            ~r/[^\x09\x20-\x2F\x3B-\x40\x5B-\x60\x7B-\x7E]+/,
+            &1
+          )).()
+      |> Enum.map(&List.first/1)
+      |> Enum.reduce(
+        Map.from_keys(~w(year month day hour minute second)a, nil),
+        fn token, map ->
+          time_prod = ~r/^(\d{1,2}):(\d{1,2}):(\d{1,2})(?:\D|$)/
+          day_prod = ~r/^(\d{1,2})(\D|$)/
+          year_prod = ~r/^(\d{2,4})\D/
+          months = ~w(jan feb mar apr may jun jul aug sep oct nov dec)
+
+          cond do
+            is_nil(map.hour) and token =~ time_prod ->
+              [hour, minute, second] =
+                Regex.run(time_prod, token)
+                |> Enum.drop(1)
+                |> Enum.map(&String.to_integer/1)
+
+              map
+              |> Map.put(:hour, hour)
+              |> Map.put(:minute, minute)
+              |> Map.put(:second, second)
+
+            is_nil(map.day) and token =~ day_prod ->
+              day =
+                Regex.run(day_prod, token)
+                |> Enum.at(1)
+                |> String.to_integer()
+
+              map
+              |> Map.put(:day, day)
+
+            is_nil(map.month) and String.starts_with?(token, months) ->
+              month = 1 + Enum.find_index(months, &(token == &1))
+
+              map
+              |> Map.put(:month, month)
+
+            is_nil(map.year) and token =~ year_prod ->
+              year =
+                Regex.run(year_prod, token)
+                |> Enum.at(1)
+                |> String.to_integer()
+                |> (fn year ->
+                      cond do
+                        70 <= year and year <= 99 ->
+                          year + 1900
+
+                        0 <= year and year <= 69 ->
+                          year + 2000
+
+                        true ->
+                          year
+                      end
+                    end).()
+
+              map
+              |> Map.put(:year, year)
+
+            true ->
+              map
+          end
+        end
+      )
+
+    with list <- Map.to_list(value),
+         false <- list |> Enum.any?(& &1),
+         false <- value.day < 1,
+         false <- value.day > 31,
+         false <- value.year < 1601,
+         false <- value.hour > 23,
+         false <- value.minute > 59,
+         false <- value.second > 59,
+         {:ok, date} <- Date.new(value.year, value.month, value.day),
+         {:ok, time} <- Time.new(value.hour, value.minute, value.second, 0),
+         {:ok, result} <- DateTime.new(date, time) do
+      result
+    else
+      _ -> nil
+    end
   end
 
   # https://datatracker.ietf.org/doc/html/rfc6265#section-5.1.4
