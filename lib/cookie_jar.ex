@@ -82,8 +82,14 @@ defmodule CookieJar do
   @impl true
   @spec handle_cast({:process_header, URI.t(), String.t()}, cookies()) ::
           {:noreply, cookies()}
-  def handle_cast({:process_header, _request_uri, _header}, cookies) do
+  def handle_cast({:process_header, request_uri, header}, cookies) do
+    _cookie = parse_header(request_uri, header)
+
     {:noreply, cookies}
+  end
+
+  defp parse_header(_request_uri, _header) do
+    nil
   end
 
   @doc """
