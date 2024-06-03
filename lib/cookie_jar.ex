@@ -146,9 +146,25 @@ defmodule CookieJar do
   @spec store_cookie(cookies(), cookie() | nil) :: cookies()
   defp store_cookie(cookies, cookie) do
     with false <- is_nil(cookie) do
-      cookie = {%{name: cookie.name}, %{value: cookie.value}}
+      cookie =
+        Enum.reduce(
+          cookie.attrs,
+          %{
+            name: cookie.name,
+            value: cookie.value,
+            secure: false
+          },
+          fn {k, v}, acc -> Map.put(acc, k, v) end
+        )
 
       if cookie do
+        cookie =
+          {%{name: cookie.name},
+           %{
+             value: cookie.value,
+             secure_only: cookie.secure
+           }}
+
         cookies
         |> Map.delete(elem(cookie, 0))
         |> Map.put(elem(cookie, 0), elem(cookie, 1))
