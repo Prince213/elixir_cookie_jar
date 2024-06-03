@@ -90,14 +90,9 @@ defmodule CookieJar do
   def handle_cast({:process_header, request_uri, header}, cookies) do
     cookie = parse_header(request_uri, header)
 
-    cookies =
-      unless is_nil(cookie) do
-        store_cookie(cookies, cookie)
-      else
-        cookies
-      end
-
-    {:noreply, cookies}
+    {:noreply,
+     cookies
+     |> store_cookie(cookie)}
   end
 
   @spec parse_header(URI.t(), String.t()) :: cookie() | nil
@@ -117,9 +112,13 @@ defmodule CookieJar do
     end
   end
 
-  @spec store_cookie(cookies(), cookie()) :: cookies()
-  defp store_cookie(cookies, _cookie) do
-    cookies
+  @spec store_cookie(cookies(), cookie() | nil) :: cookies()
+  defp store_cookie(cookies, cookie) do
+    with false <- is_nil(cookie) do
+      cookies
+    else
+      _ -> cookies
+    end
   end
 
   @spec trim_wsp(String.t()) :: String.t()
