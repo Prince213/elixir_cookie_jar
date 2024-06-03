@@ -135,7 +135,7 @@ defmodule CookieJar do
   end
 
   @spec parse_header(URI.t(), String.t()) :: cookie() | nil
-  defp parse_header(_request_uri, header) do
+  defp parse_header(request_uri, header) do
     with [pair | attrs] <- String.split(header, ";"),
          [name | value] <- String.split(pair, "=", parts: 2),
          true <- value != [],
@@ -147,8 +147,16 @@ defmodule CookieJar do
         |> Enum.map(fn attr ->
           with [name | value] <- String.split(attr, "=", parts: 2),
                name <- name |> trim_wsp() |> String.downcase(),
-               _value <- List.first(value, "") |> trim_wsp() do
+               value <- List.first(value, "") |> trim_wsp() do
             case name do
+              "path" ->
+                {:path,
+                 if value == "" or :binary.first(value) != ?/ do
+                   default_path(request_uri)
+                 else
+                   value
+                 end}
+
               "secure" ->
                 {:secure, true}
 
