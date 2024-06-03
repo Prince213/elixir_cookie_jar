@@ -29,6 +29,7 @@ defmodule CookieJar do
   @doc """
   Get all cookies from a cookie jar.
   """
+  @spec get_cookies(t()) :: cookies()
   def get_cookies(cookie_jar) do
     GenServer.call(cookie_jar, :get_cookies)
   end
