@@ -117,6 +117,7 @@ defmodule CookieJar do
     end
   end
 
+  @spec store_cookie(cookies(), cookie()) :: cookies()
   defp store_cookie(cookies, _cookie) do
     cookies
   end
