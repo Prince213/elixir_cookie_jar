@@ -55,6 +55,21 @@ defmodule CookieJar do
     {:reply, cookies, cookies}
   end
 
+  @impl true
+  @spec handle_call({:create_header, URI.t()}, GenServer.from(), cookies()) ::
+          {:reply, binary(), cookies()}
+  def handle_call({:create_header, _request_uri}, _from, cookies) do
+    list =
+      cookies
+      |> Map.to_list()
+
+    header =
+      list
+      |> Enum.map_join("; ", fn {k, v} -> k.name <> "=" <> v.value end)
+
+    {:reply, header, cookies}
+  end
+
   @doc """
   Hello world.
 
