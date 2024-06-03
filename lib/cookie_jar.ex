@@ -40,6 +40,11 @@ defmodule CookieJar do
     {:ok, cookies}
   end
 
+  @impl true
+  def handle_call(:get_cookies, _from, cookies) do
+    {:reply, cookies, cookies}
+  end
+
   @doc """
   Hello world.
 
