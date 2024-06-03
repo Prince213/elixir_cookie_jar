@@ -223,8 +223,23 @@ defmodule CookieJar do
     end
   end
 
-  defp path_matches?(_request_path, _cookie_path) do
-    true
+  defp path_matches?(request_path, cookie_path) do
+    cond do
+      cookie_path == request_path ->
+        true
+
+      not String.starts_with?(request_path, cookie_path) ->
+        false
+
+      :binary.last(cookie_path) == ?/ ->
+        true
+
+      :binary.at(request_path, byte_size(cookie_path)) == ?/ ->
+        true
+
+      true ->
+        false
+    end
   end
 
   @spec trim_wsp(String.t()) :: String.t()
