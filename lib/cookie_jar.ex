@@ -27,7 +27,7 @@ defmodule CookieJar do
   end
 
   @doc """
-  Get all cookies from a cookie jar.
+  Gets all cookies from a cookie jar.
   """
   @spec get_cookies(t()) :: cookies()
   def get_cookies(cookie_jar) do
