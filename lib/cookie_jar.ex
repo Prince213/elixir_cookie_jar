@@ -41,6 +41,8 @@ defmodule CookieJar do
   end
 
   @impl true
+  @spec handle_call(:get_cookies, GenServer.from(), cookies()) ::
+          {:reply, cookies(), cookies()}
   def handle_call(:get_cookies, _from, cookies) do
     {:reply, cookies, cookies}
   end
