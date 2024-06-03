@@ -222,6 +222,11 @@ defmodule CookieJar do
                   |> Map.put(:persistent, true)
                   |> Map.put(:expiry_time, c.max_age)
 
+                not is_nil(c.expires) ->
+                  c
+                  |> Map.put(:persistent, true)
+                  |> Map.put(:expiry_time, c.expires)
+
                 true ->
                   c
                   |> Map.put(:persistent, false)
