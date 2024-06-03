@@ -20,7 +20,10 @@ defmodule CookieJar do
 
   @type cookie() :: %{
           name: String.t(),
-          value: String.t()
+          value: String.t(),
+          attrs: [
+            {:secure, true}
+          ]
         }
 
   @doc """
