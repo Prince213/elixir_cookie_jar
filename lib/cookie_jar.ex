@@ -88,7 +88,9 @@ defmodule CookieJar do
         with true <- not v.secure_only or request_uri.scheme == "https",
              true <-
                not v.http_only or
-                 Enum.member?(~w(http https), request_uri.scheme) do
+                 Enum.member?(~w(http https), request_uri.scheme),
+             now <- DateTime.utc_now() do
+          v = %{v | last_access_time: now}
           {{k, v}, [{k, v}] ++ acc}
         else
           _ -> {{k, v}, acc}
