@@ -43,6 +43,9 @@ defmodule CookieJar do
     GenServer.call(cookie_jar, {:create_header, request_uri})
   end
 
+  @doc """
+  Process a Set-Cookie header field.
+  """
   @spec process_header(t(), URI.t(), String.t()) :: :ok
   def process_header(cookie_jar, request_uri, header) do
     GenServer.cast(cookie_jar, {:process_header, request_uri, header})
