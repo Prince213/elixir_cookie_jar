@@ -376,6 +376,7 @@ defmodule CookieJar do
   end
 
   # TODO: check if string is an IP address
+  @spec domain_matches?(String.t(), String.t()) :: boolean()
   defp domain_matches?(string, domain) do
     cond do
       string == domain ->
