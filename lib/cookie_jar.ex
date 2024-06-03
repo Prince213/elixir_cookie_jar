@@ -79,6 +79,11 @@ defmodule CookieJar do
     {:reply, header, cookies}
   end
 
+  @impl true
+  def handle_cast({:process_header, _request_uri, _header}, cookies) do
+    {:noreply, cookies}
+  end
+
   @doc """
   Hello world.
 
