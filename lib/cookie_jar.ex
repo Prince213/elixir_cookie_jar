@@ -94,7 +94,8 @@ defmodule CookieJar do
         DateTime.compare(now, x.expiry_time) == :lt
       end)
       |> Enum.map_reduce([], fn {k, v}, acc ->
-        with true <- not v.secure_only or request_uri.scheme == "https",
+        with true <- path_matches?(request_uri.path, k.path),
+             true <- not v.secure_only or request_uri.scheme == "https",
              true <-
                not v.http_only or
                  Enum.member?(~w(http https), request_uri.scheme),
@@ -220,6 +221,10 @@ defmodule CookieJar do
     else
       _ -> cookies
     end
+  end
+
+  defp path_matches?(_request_path, _cookie_path) do
+    true
   end
 
   @spec trim_wsp(String.t()) :: String.t()
