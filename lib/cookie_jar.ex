@@ -33,6 +33,7 @@ defmodule CookieJar do
           attrs: [
             {:expires, DateTime.t()}
             | {:max_age, DateTime.t()}
+            | {:domain, String.t()}
             | {:path, String.t()}
             | {:secure, true}
             | {:http_only, true}
